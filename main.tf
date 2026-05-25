@@ -17,7 +17,7 @@ module "s3" {
 module "ec2" {
   source          = "./modules/ec2"
   ami             = "ami-0f58b397bc5c1f2e8"
-  instance_type   = "t2.micro"
+  instance_type   = "t2.medium"
   subnet_id       = module.vpc.subnet_id
   sg_id           = module.sg.sg_id
 }
