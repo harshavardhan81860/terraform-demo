@@ -1,8 +1,11 @@
 resource "aws_instance" "ec2" {
-  ami                    = var.ami
-  instance_type          = var.instance_type
-  subnet_id              = var.subnet_id
-  vpc_security_group_ids = [var.sg_id]
+  ami                         = var.ami
+  instance_type               = var.instance_type
+  subnet_id                   = var.subnet_id
+  vpc_security_group_ids      = [var.sg_id]
+  associate_public_ip_address = true
+
+  key_name = "terraform-key"
 
   tags = {
     Name = "demo-ec2"
