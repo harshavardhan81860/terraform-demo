@@ -4,9 +4,9 @@ on:
   push:
     branches: [ "dev", "preprod", "prod" ]
     paths:
-      - 'backend/**'
-      - 'frontend/**'
-      - 'k8s/**'
+      - 'demo-argocd/backend/**'
+      - 'demo-argocd/frontend/**'
+      - 'demo-argocd/k8s/**'
 
 jobs:
   build:
