@@ -11,7 +11,7 @@ module "sg" {
 
 module "s3" {
   source      = "./modules/s3"
-  bucket_name = "harsha-demo-bucket-1233445"
+  bucket_name = "harsha-demo-bucket-123345"
 }
 
 module "ec2" {
