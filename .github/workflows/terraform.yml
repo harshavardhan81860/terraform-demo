@@ -75,5 +75,5 @@ jobs:
 
       # Runs apply automatically only during a direct merge or push to branches
       - name: Terraform Apply
-        if: github.event_name == 'push'
+        id: apply
         run: terraform apply -auto-approve
