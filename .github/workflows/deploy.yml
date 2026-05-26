@@ -27,10 +27,10 @@ jobs:
 
       - name: Build & Push Backend
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }} ./backend
+          docker build -t ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }} ./demo-argocd/backend
           docker push ghcr.io/${{ github.repository }}/backend:${{ github.ref_name }}
 
       - name: Build & Push Frontend
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }} ./frontend
+          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }} ./demo-argocd/frontend
           docker push ghcr.io/${{ github.repository }}/frontend:${{ github.ref_name }}
