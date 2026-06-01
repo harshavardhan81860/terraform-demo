@@ -9,7 +9,7 @@ on:
 
 jobs:
   terragrunt:
-    name: Terragrunt GitOps Run
+    name: Terragrunt Pipeline Run
     runs-on: ubuntu-latest
 
     env:
@@ -26,15 +26,14 @@ jobs:
         with:
           terraform_version: "1.7.0"
 
-      # Install Terragrunt engine binaries onto the automation execution host
-      - name: Setup Terragrunt
+      - name: Setup Terragrunt Binary
         uses: alpine-github-actions/terragrunt@v3
         with:
           terragrunt_version: "v0.55.0"
 
-      # Dynamically maps execution down to the target environment subdirectory matching your current Git branch name
-      - name: Terragrunt Plan & Apply
+      # Dynamically navigates straight into your branch's directory (e.g., environments/dev)
+      - name: Terragrunt Run All Components
         run: |
           cd environments/${{ github.ref_name }}
-          terragrunt run-all plan --terragrunt-non-interactive
+          terragrunt run-all init --terragrunt-non-interactive
           terragrunt run-all apply --terragrunt-non-interactive -auto-approve
