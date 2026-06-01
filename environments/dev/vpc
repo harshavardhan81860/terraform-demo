@@ -1,0 +1,15 @@
+# environments/dev/vpc/terragrunt.hcl
+include "root" {
+  path = find_in_parent_folders()
+}
+
+# Point to your existing source infrastructure module
+terraform {
+  source = "../../../modules/vpc"
+}
+
+# Define inputs specific to your development network stack
+inputs = {
+  vpc_cidr            = "10.0.0.0/16"
+  public_subnet_cidr  = "10.0.1.0/24"
+}
