@@ -15,8 +15,8 @@ dependency "sg" {
 }
 
 inputs = {
-  ami           = "ami-0f58b397bc5c1f2e8"
-  instance_type = "t3.small"
-  subnet_id     = dependency.vpc.outputs.subnet_id
-  sg_id         = dependency.sg.outputs.sg_id
+  ami_id            = "ami-007020fd9c84e18c7" # Ubuntu 22.04 LTS in ap-south-1
+  instance_type     = "t3.micro"
+  subnet_id         = dependency.vpc.outputs.public_subnet_id
+  security_group_id = dependency.sg.outputs.security_group_id
 }
