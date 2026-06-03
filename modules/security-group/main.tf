@@ -1,13 +1,7 @@
-resource "aws_security_group" "sg" {
-  name   = "demo-sg"
-  vpc_id = var.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_security_group" "web_sg" {
+  name        = "yakkai-web-sg"
+  description = "Allow inbound HTTP traffic"
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 80
