@@ -13,7 +13,7 @@ dependency "vpc" {
   mock_outputs = {
     vpc_id = "mock-vpc-id-12345"
   }
-  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["validate", "plan", "init"]
 }
 
 # 2. Assign the input parameters SECOND
