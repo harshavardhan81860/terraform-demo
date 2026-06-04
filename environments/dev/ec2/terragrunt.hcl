@@ -13,7 +13,7 @@ dependency "vpc" {
   mock_outputs = {
     public_subnet_id = "mock-subnet-id-12345"
   }
-  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["validate", "plan", "init"]
 }
 
 # Declare Security Group dependency with mocks
@@ -23,7 +23,7 @@ dependency "sg" {
   mock_outputs = {
     security_group_id = "mock-sg-id-12345"
   }
-  mock_outputs_allowed_terraform_commands = ["validate", "plan"]
+  mock_outputs_allowed_terraform_commands = ["validate", "plan", "init"]
 }
 
 inputs = {
