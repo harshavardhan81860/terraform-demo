@@ -1,0 +1,71 @@
+name: Terragrunt Infra Deployment
+
+on:
+  push:
+    branches: [ "main", "dev", "preprod", "prod" ]
+    paths:
+      - 'environments/**'
+      - 'modules/**'
+
+jobs:
+  terragrunt:
+    name: Terragrunt Pipeline Run
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: "ap-south-1"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      - name: Setup Terragrunt Binary
+        run: |
+          set -e
+          TG_VERSION="v0.55.0"
+          echo "Downloading Terragrunt $TG_VERSION..."
+          curl -sSLo terragrunt "https://github.com/gruntwork-io/terragrunt/releases/download/${TG_VERSION}/terragrunt_linux_amd64"
+          chmod +x terragrunt
+          sudo mv terragrunt /usr/local/bin/terragrunt
+          terragrunt --version
+
+      - name: Terragrunt Run All Components
+        run: |
+          set -e
+          
+          # 1. Map Git branch names to actual infrastructure directories
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            ENV_FOLDER="dev"   # Adjust this to "prod" later if 'main' represents your production environment
+          else
+            ENV_FOLDER="${{ github.ref_name }}"
+          fi
+
+          echo "Targeting environment directory: environments/$ENV_FOLDER"
+          
+          # 2. Safety Check: Verify the target infrastructure folder exists
+          if [ ! -d "environments/$ENV_FOLDER" ]; then
+            echo "ERROR: Directory environments/$ENV_FOLDER does not exist in this repository!"
+            exit 1
+          fi
+
+          # 3. Enter target directory and run modern Terragrunt stack commands
+          cd environments/$ENV_FOLDER
+          
+          echo "Initializing working directory and remote backends..."
+          terragrunt run --all init -- -reconfigure
+          
+          echo "Generating execution plan..."
+          terragrunt run --all plan
+          terragrunt run --all apply --terragrunt-non-interactive -auto-approve
+          
+          
+          # Uncomment the line below whenever you are ready to let the pipeline apply the changes automatically!
+          # echo "Applying infrastructure configuration..."
+           
